@@ -1,10 +1,4 @@
 
-
-
-Evo profesionalnog i detaljnog `README.md` fajla na engleskom jeziku, skrojenog tačno prema tvom projektnom zadatku. 
-
-Možeš samo da iskopiraš ovaj tekst i zalepiš ga u `README.md` unutar tvog `smart_house_system` foldera na GitHub-u.
-
 ***
 
 # 🏠 Smart House System (ROS 2)
