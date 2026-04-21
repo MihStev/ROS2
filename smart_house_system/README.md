@@ -54,7 +54,7 @@ These nodes use the Request/Response pattern for immediate actions.
 Navigate to the root of your ROS 2 workspace and build the package:
 ```bash
 cd ~/ros2_ws
-colcon build --packages-select smart_house_system
+colcon build --packages-select smart_house smart_house_interfaces
 ```
 
 ### 2. Source the Environment
