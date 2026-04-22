@@ -54,7 +54,7 @@ These nodes use the Request/Response pattern for immediate actions.
 Navigate to the root of your ROS 2 workspace and build the package:
 ```bash
 cd ~/ros2_ws
-colcon build --packages-select smart_house_system
+colcon build --packages-select smart_house smart_house_interfaces
 ```
 
 ### 2. Source the Environment
@@ -66,7 +66,7 @@ source ~/ros2_ws/install/setup.bash
 ### 3. Run the Entire System (Launch File)
 Instead of running each node in a separate terminal, you can start the entire smart house simulation using the provided launch file:
 ```bash
-ros2 launch smart_house_system smart_house.launch.py
+ros2 launch smart_house smart_house.launch.py
 ```
 
 ---
