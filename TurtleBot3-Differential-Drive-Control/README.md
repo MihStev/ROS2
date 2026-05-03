@@ -35,8 +35,8 @@ TurtleBot3-Differential-Drive-Control/
     │   └── SetMode.srv                  # Custom Service definition
     ├── CMakeLists.txt
     └── package.xml
-
-⚙️ Prerequisites
+---
+## ⚙️ Prerequisites
 
   - OS: Ubuntu 20.04 / 22.04
   - ROS 2: Jazzy or newer
@@ -46,8 +46,8 @@ TurtleBot3-Differential-Drive-Control/
 Ensure you have the TurtleBot3 simulation packages installed:
 
 sudo apt install ros-<your_ros_distro>-turtlebot3-gazebo
-
-🛠️ Build Instructions
+---
+## 🛠️ Build Instructions
 
 1.  Clone this repository into the src folder of your ROS 2 workspace (e.g.,
     ~/ros2_ws/src/):
@@ -65,8 +65,8 @@ colcon build --packages-select turtlebot3_interfaces turtlebot3_control
 3.  Source the workspace:
 
 source install/setup.bash
-
-🚀 How to Run
+---
+## 🚀 How to Run
 
 To run the full system, you will need three separate terminal windows. Don't
 forget to source your workspace (source install/setup.bash) in every new
@@ -97,8 +97,8 @@ mode and input target coordinates or manual commands.
 
 source ~/ros2_ws/install/setup.bash
 ros2 run turtlebot3_control client
-
-📡 Custom Service Details
+---
+## 📡 Custom Service Details
 
 Service Name: /set_mode Service Type: turtlebot3_interfaces/srv/SetMode
 
@@ -112,15 +112,10 @@ float64 target_y
 ---
 bool success
 string message
-
-📝 License
+---
+### 📝 License
 
 This project is open-source and created for educational purposes.
 
 
 ***
-
-**Zašto je ovaj README dobar:**
-1. **Prikazuje strukturu** baš onako kako si je ti poređao (ubacio sam nazive koje imaš na slici).
-2. Očigledno objašnjava **šta tvoj kod radi** (ističe kretanje unazad i skaliranje, što obično donosi dodatne bodove na ocenjivanju).
-3. Ima **"How to Run"** sekciju napisanu "za idiote" korak po korak – kako se tačno pokreće okruženje, server, pa onda klijent. Ovo je najbitnije profesorima i asistentima kada pregledaju kod!
