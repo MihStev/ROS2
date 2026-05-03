@@ -35,6 +35,7 @@ TurtleBot3-Differential-Drive-Control/
     │   └── SetMode.srv                  # Custom Service definition
     ├── CMakeLists.txt
     └── package.xml
+```
 ---
 ## ⚙️ Prerequisites
 
