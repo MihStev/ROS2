@@ -1,0 +1,11 @@
+int8 mode 
+# Man = 1 
+# AUTO = 2
+string manual_cmd   # for mode = 1, 'w', 'a', 's', 'd'
+float64 target_x
+float64 target_y
+
+---
+
+bool success
+string message
