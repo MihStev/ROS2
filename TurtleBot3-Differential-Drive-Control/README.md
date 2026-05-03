@@ -45,24 +45,25 @@ TurtleBot3-Differential-Drive-Control/
   - Python 3
 
 Ensure you have the TurtleBot3 simulation packages installed:
-
+```bash
 sudo apt install ros-<your_ros_distro>-turtlebot3-gazebo
+```
 ---
 ## 🛠️ Build Instructions
 
 1.  Clone this repository into the src folder of your ROS 2 workspace (e.g.,
     ~/ros2_ws/src/):
-
+```bash
 cd ~/ros2_ws/src
 git clone <your_repository_url> TurtleBot3-Differential-Drive-Control
-
+```
 2.  Navigate to the root of your workspace and build the packages using colcon.
     Note: turtlebot3_interfaces is built first automatically because
     turtlebot3_control depends on it.
-
+```bash
 cd ~/ros2_ws
 colcon build --packages-select turtlebot3_interfaces turtlebot3_control
-
+```
 3.  Source the workspace:
 
 source install/setup.bash
@@ -76,10 +77,10 @@ terminal!
 1. Launch the Gazebo Simulation
 
 Export the TurtleBot3 model environment variable and start the simulation:
-
+```bash
 export TURTLEBOT3_MODEL=burger
 ros2 launch turtlebot3_gazebo empty_world.launch.py
-
+```
 (Note: Ensure Gazebo is NOT paused. Click the "Play" button in the bottom left
 corner of the Gazebo GUI if the simulation is paused).
 
@@ -87,17 +88,18 @@ corner of the Gazebo GUI if the simulation is paused).
 
 In a new terminal, run the main control loop. This node subscribes to /odom,
 computes the kinematics, and publishes to /cmd_vel using TwistStamped messages.
-
+```bash
 source ~/ros2_ws/install/setup.bash
 ros2 run turtlebot3_control service
-
+```
 3. Start the User Interface (Client Node)
 
 In a third terminal, run the client node. This provides a CLI menu to choose the
 mode and input target coordinates or manual commands.
-
+```bash
 source ~/ros2_ws/install/setup.bash
 ros2 run turtlebot3_control client
+```
 ---
 ## 📡 Custom Service Details
 
