@@ -65,8 +65,9 @@ cd ~/ros2_ws
 colcon build --packages-select turtlebot3_interfaces turtlebot3_control
 ```
 3.  Source the workspace:
-
+```bash
 source install/setup.bash
+```
 ---
 ## 🚀 How to Run
 
@@ -107,7 +108,7 @@ Service Name: /set_mode Service Type: turtlebot3_interfaces/srv/SetMode
 
 The .srv file structure handles the mode switching, manual commands, and target
 global coordinates:
-
+```text
 int8 mode           # 0 = IDLE, 1 = MANUAL, 2 = AUTO
 string manual_cmd   # 'w', 'a', 's', 'd'
 float64 target_x
@@ -115,6 +116,7 @@ float64 target_y
 ---
 bool success
 string message
+```
 ---
 ### 📝 License
 
