@@ -4,6 +4,12 @@ from rclpy.node import Node
 
 from turtlebot3_interfaces.srv import SetMode
 
+import sys
+import termios
+import tty
+
+
+
 class ModeClientNode(Node):
     def __init__(self):
         super().__init__('mode_client_node')
@@ -28,6 +34,15 @@ class ModeClientNode(Node):
 
         return future.result()
     
+def get_key(settings):
+    tty.setraw(sys.stdin.fileno())
+    key = sys.stdin.read(1)
+    termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
+    return key
+
+
+
+
 def main(args=None):
     rclpy.init(args=args)
     client = ModeClientNode()
@@ -42,6 +57,7 @@ def main(args=None):
         print("="*30)
         mode_input = input("Enter mode (0, 1, 2): ")
 
+        settings = termios.tcgetattr(sys.stdin)
         try:
             mode = int(mode_input)
             if mode not in [0, 1, 2]:
@@ -56,7 +72,25 @@ def main(args=None):
         y = 0.0
 
         if mode == 1:  # MANUAL mode
-            cmd = input("Enter manual command (w/s/a/d for forward/backward/left/right): ")
+            print("Entering MANUAL mode. Use 'w', 'a', 's', 'd' to control the robot, " \
+            "'x' to stop, and 'q' to exit MANUAL mode.")
+            while True:
+                key = get_key(settings).lower()
+
+                if key == 'q':
+                    print("Exiting MANUAL mode.")
+                    client.send_request(0, 'x', 0.0, 0.0)  # Stop the robot before exiting
+                    break
+                elif key == '\x03': # Handle Ctrl+C gracefully
+                    print("Exiting MANUAL mode.")
+                    client.send_request(0, 'x', 0.0, 0.0)  # Stop the robot before exiting
+                    client.destroy_node()
+                    rclpy.shutdown()
+                    return
+                
+                elif key in ['w', 'a', 's', 'd', 'x']:
+                    client.send_request(mode, key, 0.0, 0.0)  # Send the manual command to the service
+
         elif mode == 2:  # AUTO mode
             try:
                 x = float(input("Enter target X coordinate: "))

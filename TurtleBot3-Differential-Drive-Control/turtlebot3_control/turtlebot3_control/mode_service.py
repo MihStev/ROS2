@@ -68,7 +68,9 @@ class RobotControllerNode(Node):
                 vel_msg.twist.angular.z = 0.2
             elif self.manual_cmd == 'd':  # RIGHT
                 vel_msg.twist.angular.z = -0.2
-
+            elif self.manual_cmd == 'x':
+                vel_msg.twist.linear.x = 0.0
+                vel_msg.twist.angular.z = 0.0
         elif self.current_mode == 2:  # AUTO mode
             # Simple proportional controller to move towards target position
             dx = self.target_x - self.current_x
