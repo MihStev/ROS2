@@ -7,6 +7,9 @@ venv/
 ENV/
 
 # --- Documentation---
-# 
+#
 *.log
 *.png
+
+# --- Claude Code ---
+CLAUDE.md
