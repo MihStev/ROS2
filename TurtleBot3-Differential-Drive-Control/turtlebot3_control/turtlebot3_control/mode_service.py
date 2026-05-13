@@ -72,14 +72,35 @@ class RobotControllerNode(Node):
                 vel_msg.twist.linear.x = 0.0
                 vel_msg.twist.angular.z = 0.0
         elif self.current_mode == 2:  # AUTO mode
-            # Simple proportional controller to move towards target position
             dx = self.target_x - self.current_x
             dy = self.target_y - self.current_y
-
             vel_const = 0.2
             rho = math.sqrt(dx**2 + dy**2)
-            moving_forward = True
 
+            # if rho < 0.05:
+            #     self.get_logger().info('Target reached!')
+            #     self.current_mode = 0
+            # else:
+            #     alpha = math.atan2(dy, dx) - self.current_theta
+            #     alpha = math.atan2(math.sin(alpha), math.cos(alpha))  # normalize to [-pi, pi]
+
+            #     moving_forward = True
+            #     # If the target is behind the robot, it's more efficient to turn around and drive backwards
+            #     if abs(alpha) > math.pi / 2:
+            #         moving_forward = False
+            #         alpha = alpha - math.copysign(math.pi, alpha)
+
+            #     if abs(alpha) > 0.1:  # Phase 1: rotate to face target (or back to target)
+            #         vel_msg.twist.linear.x = 0.0
+            #         vel_msg.twist.angular.z = 1.0 * alpha
+            #     else:                  # Phase 2: drive straight with small heading correction
+            #         direction = 1.0 if moving_forward else -1.0
+            #         vel_msg.twist.linear.x = direction * min(0.5 * rho, vel_const)
+            #         vel_msg.twist.angular.z = 0.5 * alpha
+            
+            # Differential drive control using the unicycle model
+            # ---------------------------------------------------------------
+            moving_forward = True
             if rho < 0.05:
                 self.get_logger().info('Target reached!')
                 self.current_mode = 0 
@@ -119,12 +140,9 @@ class RobotControllerNode(Node):
                     vel_linear = vel_const
                 else:
                     vel_linear = -vel_const
-
-                    
                 vel_msg.twist.linear.x = vel_linear
                 vel_msg.twist.angular.z = vel_angular
-                
-
+                # --------------------------------------------------------------
         # Send velocity command
         self.vel_pub.publish(vel_msg)
         
