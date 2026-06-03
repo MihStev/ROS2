@@ -77,71 +77,71 @@ class RobotControllerNode(Node):
             vel_const = 0.2
             rho = math.sqrt(dx**2 + dy**2)
 
-            # if rho < 0.05:
-            #     self.get_logger().info('Target reached!')
-            #     self.current_mode = 0
-            # else:
-            #     alpha = math.atan2(dy, dx) - self.current_theta
-            #     alpha = math.atan2(math.sin(alpha), math.cos(alpha))  # normalize to [-pi, pi]
-
-            #     moving_forward = True
-            #     # If the target is behind the robot, it's more efficient to turn around and drive backwards
-            #     if abs(alpha) > math.pi / 2:
-            #         moving_forward = False
-            #         alpha = alpha - math.copysign(math.pi, alpha)
-
-            #     if abs(alpha) > 0.1:  # Phase 1: rotate to face target (or back to target)
-            #         vel_msg.twist.linear.x = 0.0
-            #         vel_msg.twist.angular.z = 1.0 * alpha
-            #     else:                  # Phase 2: drive straight with small heading correction
-            #         direction = 1.0 if moving_forward else -1.0
-            #         vel_msg.twist.linear.x = direction * min(0.5 * rho, vel_const)
-            #         vel_msg.twist.angular.z = 0.5 * alpha
-            
-            # Differential drive control using the unicycle model
-            # ---------------------------------------------------------------
-            moving_forward = True
             if rho < 0.05:
                 self.get_logger().info('Target reached!')
-                self.current_mode = 0 
+                self.current_mode = 0
             else:
-                alpha = -self.current_theta + math.atan2(dy, dx)
-                beta = -self.current_theta - alpha
+                alpha = math.atan2(dy, dx) - self.current_theta
+                alpha = math.atan2(math.sin(alpha), math.cos(alpha))  # normalize to [-pi, pi]
 
-                # Normalize alpha to be within [-pi, pi]
-                while alpha > math.pi:
-                    alpha -= 2 * math.pi
-                while alpha < -math.pi:
-                    alpha += 2 * math.pi
-
-                # Check if target is behind the robot
+                moving_forward = True
+                # If the target is behind the robot, it's more efficient to turn around and drive backwards
                 if abs(alpha) > math.pi / 2:
                     moving_forward = False
                     alpha = alpha - math.copysign(math.pi, alpha)
 
-                # Choosing gains for the controller
-                k_rho = 0.5  
-                k_alpha = 1.5 
-                k_beta = -0.5
+                if abs(alpha) > 0.1:  # Phase 1: rotate to face target (or back to target)
+                    vel_msg.twist.linear.x = 0.0
+                    vel_msg.twist.angular.z = 1.0 * alpha
+                else:                  # Phase 2: drive straight with small heading correction
+                    direction = 1.0 if moving_forward else -1.0
+                    vel_msg.twist.linear.x = direction * min(0.5 * rho, vel_const)
+                    vel_msg.twist.angular.z = 0.5 * alpha
+            
+            # Differential drive control using the unicycle model
+            # ---------------------------------------------------------------
+            # moving_forward = True
+            # if rho < 0.05:
+            #     self.get_logger().info('Target reached!')
+            #     self.current_mode = 0 
+            # else:
+            #     alpha = -self.current_theta + math.atan2(dy, dx)
+            #     beta = -self.current_theta - alpha
 
-                # Calculate BASE (theoretical) velocities for scaling
-                vel_linear = k_rho * rho
-                vel_angular = k_alpha * alpha + k_beta * beta
+            #     # Normalize alpha to be within [-pi, pi]
+            #     while alpha > math.pi:
+            #         alpha -= 2 * math.pi
+            #     while alpha < -math.pi:
+            #         alpha += 2 * math.pi
 
-                # Scale angular velocity to maintain the path with constant linear speed
-                if vel_linear > 0.001:
-                    vel_angular = (vel_angular/vel_linear) * vel_const
-                else:
-                    vel_angular = 0.0
+            #     # Check if target is behind the robot
+            #     if abs(alpha) > math.pi / 2:
+            #         moving_forward = False
+            #         alpha = alpha - math.copysign(math.pi, alpha)
+
+            #     # Choosing gains for the controller
+            #     k_rho = 0.5  
+            #     k_alpha = 1.5 
+            #     k_beta = -0.5
+
+            #     # Calculate BASE (theoretical) velocities for scaling
+            #     vel_linear = k_rho * rho
+            #     vel_angular = k_alpha * alpha + k_beta * beta
+
+            #     # Scale angular velocity to maintain the path with constant linear speed
+            #     if vel_linear > 0.001:
+            #         vel_angular = (vel_angular/vel_linear) * vel_const
+            #     else:
+            #         vel_angular = 0.0
 
 
-                # Set final constant linear velocity based on direction
-                if moving_forward:
-                    vel_linear = vel_const
-                else:
-                    vel_linear = -vel_const
-                vel_msg.twist.linear.x = vel_linear
-                vel_msg.twist.angular.z = vel_angular
+            #     # Set final constant linear velocity based on direction
+            #     if moving_forward:
+            #         vel_linear = vel_const
+            #     else:
+            #         vel_linear = -vel_const
+            #     vel_msg.twist.linear.x = vel_linear
+            #     vel_msg.twist.angular.z = vel_angular
                 # --------------------------------------------------------------
         # Send velocity command
         self.vel_pub.publish(vel_msg)
