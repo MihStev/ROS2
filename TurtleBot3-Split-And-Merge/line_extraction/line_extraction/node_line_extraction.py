@@ -73,7 +73,7 @@ def split_and_merge_iterative(points, threshold):
         i,j = segment_queue.pop()
         line_fits, k = do_line_fits(points, threshold, i, j)
         if line_fits:
-            if i + 5 < j:
+            if i + 4 < j:
                 rho, theta = line_parameters(points[i], points[j])
                 lines.append((rho,theta, i, j))
         else:
@@ -173,7 +173,7 @@ class SplitAndMergeNode(Node):
         exec_time = end_time - start_time
 
         for i in range(len(lines)):
-            self.get_logger().info(f"Line {i+1}: rho={lines[i][0]:.3f}, theta={lines[i][1]:.3f}, {lines[i][2]} ----- {lines[i][3]}")
+            self.get_logger().info(f"Line {i+1}: rho={lines[i][0]:.3f}, theta={lines[i][1]:.3f}")
         
         self.get_logger().info(f"{len(lines)} lines found, time: {exec_time*1000:.3f} ms")
 
