@@ -71,32 +71,32 @@ source install/setup.bash
 ---
 ## 🚀 How to Run
 
-To run the full system, you will need three separate terminal windows. Don't
-forget to source your workspace (source install/setup.bash) in every new
-terminal!
+### Option A: Launch File (Recommended)
 
-1. Launch the Gazebo Simulation
+A single launch file starts Gazebo, the controller node, and opens the client CLI in a new terminal window automatically:
+```bash
+export TURTLEBOT3_MODEL=burger
+ros2 launch turtlebot3_control turtlebot3_control.launch.py
+```
 
-Export the TurtleBot3 model environment variable and start the simulation:
+> **Note:** The client node opens in a separate `gnome-terminal` window. Ensure `gnome-terminal` is installed on your system.
+
+### Option B: Manual Launch (Three Terminals)
+
+1. **Launch the Gazebo Simulation**
 ```bash
 export TURTLEBOT3_MODEL=burger
 ros2 launch turtlebot3_gazebo empty_world.launch.py
 ```
-(Note: Ensure Gazebo is NOT paused. Click the "Play" button in the bottom left
-corner of the Gazebo GUI if the simulation is paused).
+> Ensure Gazebo is NOT paused — click the "Play" button in the bottom left corner if needed.
 
-2. Start the Robot Controller (Server Node)
-
-In a new terminal, run the main control loop. This node subscribes to /odom,
-computes the kinematics, and publishes to /cmd_vel using TwistStamped messages.
+2. **Start the Robot Controller (Server Node)**
 ```bash
 source ~/ros2_ws/install/setup.bash
 ros2 run turtlebot3_control service
 ```
-3. Start the User Interface (Client Node)
 
-In a third terminal, run the client node. This provides a CLI menu to choose the
-mode and input target coordinates or manual commands.
+3. **Start the User Interface (Client Node)**
 ```bash
 source ~/ros2_ws/install/setup.bash
 ros2 run turtlebot3_control client
