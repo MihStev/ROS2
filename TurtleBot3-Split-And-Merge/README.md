@@ -142,7 +142,7 @@ ros2 run turtlebot3_teleop teleop_keyboard
 **Terminal 4 — RViz visualisation**
 
 ```bash
-ros2 run rviz2 rviz2
+rviz2 -d ~/ros2_ws/src/turtlebot3_simulations/turtlebot3_gazebo/rviz/tb3_gazebo.rviz
 ```
 
 Inside RViz:
