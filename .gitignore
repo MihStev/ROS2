@@ -13,3 +13,5 @@ ENV/
 
 # --- Claude Code ---
 CLAUDE.md
+# Result figures referenced from READMEs
+!*/docs/*.png
